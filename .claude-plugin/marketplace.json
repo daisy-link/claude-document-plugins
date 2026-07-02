@@ -1,0 +1,16 @@
+{
+  "name": "lo-cal-skills",
+  "owner": {
+    "name": "lo-cal"
+  },
+  "metadata": {
+    "description": "lo-cal 社内向け Claude Code スキル・マーケットプレイス"
+  },
+  "plugins": [
+    {
+      "name": "spec-tools",
+      "source": "./plugins/spec-tools",
+      "description": "ソースコードからMarkdown仕様書を生成し、完全オフラインHTMLに変換する（system-spec-writer / spec-to-html）"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "spec-tools",
+  "version": "0.1.0",
+  "description": "ソースコードからMarkdown仕様書を生成し、完全オフラインのHTMLに変換する社内向けスキル集。system-spec-writer（仕様書生成）と spec-to-html（HTML変換）を同梱。",
+  "author": {
+    "name": "lo-cal"
+  },
+  "keywords": [
+    "documentation",
+    "specification",
+    "markdown",
+    "html",
+    "mermaid"
+  ]
+}
