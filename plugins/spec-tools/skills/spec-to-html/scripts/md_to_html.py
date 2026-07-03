@@ -331,13 +331,31 @@ def page_title(md: str, fallback: str) -> str:
     return fallback
 
 
-def build_sidebar(nav, current, site_title):
-    links = []
-    for fname, title in nav:
-        cls = ' class="active"' if fname == current else ""
-        links.append(f'<li{cls}><a href="{html.escape(fname)}">{html.escape(title)}</a></li>')
+def rel_href(from_html: str, to_html: str) -> str:
+    """出力ディレクトリ内の相対パス(from → to)をリンク用のスラッシュ区切りにして返す。"""
+    base = os.path.dirname(from_html)
+    r = os.path.relpath(to_html, base or ".")
+    return r.replace(os.sep, "/")
+
+
+def build_sidebar(nav, current_html, site_title):
+    """nav: [{rel_html, title, group}] のリスト。group が None なら直下、
+    値があればそのサブフォルダ名でグループ化して入れ子表示する。"""
+    lis = []
+    seen_groups = set()
+    for item in nav:
+        href = rel_href(current_html, item["rel_html"])
+        is_active = item["rel_html"] == current_html
+        classes = ["sub"] if item["group"] is not None else []
+        if is_active:
+            classes.append("active")
+        cls = f' class="{" ".join(classes)}"' if classes else ""
+        if item["group"] is not None and item["group"] not in seen_groups:
+            seen_groups.add(item["group"])
+            lis.append(f'<li class="group-label">{html.escape(item["group"])}</li>')
+        lis.append(f'<li{cls}><a href="{html.escape(href)}">{html.escape(item["title"])}</a></li>')
     return (f'<nav class="sidebar"><div class="site-title">{html.escape(site_title)}</div>'
-            f'<ul>{"".join(links)}</ul></nav>')
+            f'<ul>{"".join(lis)}</ul></nav>')
 
 
 def build_toc(toc):
@@ -398,6 +416,9 @@ padding:20px 16px;position:sticky;top:0;height:100vh;overflow-y:auto;}
 .sidebar a{display:block;padding:6px 10px;border-radius:6px;color:var(--fg);text-decoration:none;font-size:14px;}
 .sidebar a:hover{background:#eaeef2;}
 .sidebar li.active a{background:var(--link);color:#fff;font-weight:600;}
+.sidebar li.group-label{padding:10px 10px 2px;font-size:11px;font-weight:700;color:var(--muted);
+text-transform:uppercase;letter-spacing:.04em;}
+.sidebar li.sub a{padding-left:20px;font-size:13px;}
 .content{flex:1;min-width:0;padding:32px 48px;max-width:1000px;}
 .page-toc{float:right;width:220px;margin:0 0 20px 24px;padding:12px 16px;background:var(--sidebar);
 border:1px solid var(--bd);border-radius:8px;font-size:13px;}
@@ -463,12 +484,24 @@ def main():
                     help="mermaid を各 HTML に埋め込み 1 ファイルで完結させる")
     args = ap.parse_args()
 
-    # 入力ファイルの収集
+    # 入力ファイルの収集(サブフォルダ1階層まで対応。例: docs/画面設計書/P01_xxx.md)
     if os.path.isdir(args.input):
-        md_files = sorted(
-            [f for f in os.listdir(args.input) if f.endswith(".md")],
-            key=lambda f: (f != "index.md", f),  # index.md を先頭に
-        )
+        rel_paths = []
+        for root, dirs, files in os.walk(args.input):
+            dirs.sort()
+            for fn in sorted(files):
+                if fn.endswith(".md"):
+                    rel = os.path.relpath(os.path.join(root, fn), args.input)
+                    rel_paths.append(rel.replace(os.sep, "/"))
+
+        def sort_key(rel):
+            parts = rel.split("/")
+            depth = len(parts) - 1  # 0 = 直下, 1 = 1階層のサブフォルダ
+            fname = parts[-1]
+            group = parts[0] if depth > 0 else ""
+            return (depth, group, fname != "index.md", fname)
+
+        md_files = sorted(rel_paths, key=sort_key)
         in_dir = args.input
     else:
         in_dir = os.path.dirname(args.input) or "."
@@ -480,17 +513,29 @@ def main():
 
     os.makedirs(args.output, exist_ok=True)
 
-    # ナビ用に (html名, タイトル) を先に集める
+    # ナビ用に (html相対パス, タイトル, グループ) を先に集める
     nav = []
     contents = {}
-    for f in md_files:
-        with open(os.path.join(in_dir, f), encoding="utf-8") as fp:
+    group_titles = {}
+    for rel in md_files:
+        with open(os.path.join(in_dir, rel), encoding="utf-8") as fp:
             md = fp.read()
-        contents[f] = md
-        title = page_title(md, os.path.splitext(f)[0])
-        nav.append((os.path.splitext(f)[0] + ".html", title))
+        contents[rel] = md
+        parts = rel.split("/")
+        fallback = os.path.splitext(parts[-1])[0]
+        title = page_title(md, fallback)
+        rel_html = rel[:-3] + ".html"  # .md -> .html
+        group = parts[0] if len(parts) > 1 else None
+        if group is not None and parts[-1] == "index.md":
+            group_titles[group] = title  # サブフォルダの index.md のタイトルをグループ見出しに使う
+        nav.append({"rel": rel, "rel_html": rel_html, "title": title, "group": group})
 
-    site_title = args.title or (nav[0][1] if nav else "仕様書")
+    # グループ見出しが未取得(index.md が無いサブフォルダ)ならフォルダ名をそのまま使う
+    for item in nav:
+        if item["group"] is not None:
+            item["group"] = group_titles.get(item["group"], item["group"])
+
+    site_title = args.title or next((n["title"] for n in nav if n["group"] is None), nav[0]["title"])
 
     # mermaid の配置
     mermaid_src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "mermaid.min.js")
@@ -498,28 +543,36 @@ def main():
     if args.standalone:
         with open(mermaid_src, encoding="utf-8") as fp:
             mermaid_js = fp.read()
-        mermaid_ref = f"<script>{mermaid_js}</script>"
+        mermaid_ref_root = f"<script>{mermaid_js}</script>"
     else:
         assets_out = os.path.join(args.output, "assets")
         os.makedirs(assets_out, exist_ok=True)
         shutil.copy(mermaid_src, os.path.join(assets_out, "mermaid.min.js"))
-        mermaid_ref = '<script src="assets/mermaid.min.js"></script>'
+        mermaid_ref_root = None  # ページごとに相対パスを組み立てる
 
     # 各ページを変換
-    for f in md_files:
-        html_name = os.path.splitext(f)[0] + ".html"
+    for item in nav:
+        rel, rel_html = item["rel"], item["rel_html"]
         toc = []
-        body = convert(contents[f], toc)
-        title = page_title(contents[f], os.path.splitext(f)[0])
-        sidebar = build_sidebar(nav, html_name, site_title)
+        body = convert(contents[rel], toc)
+        sidebar = build_sidebar(nav, rel_html, site_title)
         toc_html = build_toc(toc)
-        page = render_page(title, site_title, sidebar, toc_html, body, mermaid_ref)
-        with open(os.path.join(args.output, html_name), "w", encoding="utf-8") as fp:
+        if args.standalone:
+            mermaid_ref = mermaid_ref_root
+        else:
+            depth = rel_html.count("/")
+            assets_rel = "../" * depth + "assets/mermaid.min.js"
+            mermaid_ref = f'<script src="{assets_rel}"></script>'
+        page = render_page(item["title"], site_title, sidebar, toc_html, body, mermaid_ref)
+        out_path = os.path.join(args.output, *rel_html.split("/"))
+        os.makedirs(os.path.dirname(out_path), exist_ok=True)
+        with open(out_path, "w", encoding="utf-8") as fp:
             fp.write(page)
-        print(f"  ✓ {f} → {html_name}")
+        print(f"  ✓ {rel} → {rel_html}")
 
-    print(f"\n完了: {len(md_files)} ファイルを {args.output} に出力しました。")
-    print(f"ブラウザで開く: {os.path.join(args.output, nav[0][0])}")
+    print(f"\n完了: {len(nav)} ファイルを {args.output} に出力しました。")
+    first = next((n for n in nav if n["group"] is None), nav[0])
+    print(f"ブラウザで開く: {os.path.join(args.output, *first['rel_html'].split('/'))}")
 
 
 if __name__ == "__main__":

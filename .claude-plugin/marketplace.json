@@ -10,7 +10,7 @@
     {
       "name": "spec-tools",
       "source": "./plugins/spec-tools",
-      "description": "ソースコードからMarkdown仕様書を生成し、完全オフラインHTMLに変換する（system-spec-writer / test-spec-writer / spec-to-html）"
+      "description": "ソースコードからMarkdown仕様書を生成し、完全オフラインHTMLに変換する（system-spec-writer / spec-to-html）"
     }
   ]
 }
