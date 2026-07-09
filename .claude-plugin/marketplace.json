@@ -10,7 +10,7 @@
     {
       "name": "spec-tools",
       "source": "./plugins/spec-tools",
-      "description": "ソースコードからMarkdown仕様書を生成する（architecture-design）"
+      "description": "仕様書生成（architecture-design）と、仕様書に基づく実装・レビュー・テスト・セキュリティ・パフォーマンスチェックの唯一の窓口 spec-dev-cycle（内部で spec-implementation / spec-review / spec-test / spec-security / spec-performance を呼び分ける）"
     }
   ]
 }
