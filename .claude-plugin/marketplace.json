@@ -10,7 +10,12 @@
     {
       "name": "spec-tools",
       "source": "./plugins/spec-tools",
-      "description": "ソースコードからMarkdown仕様書を生成し、完全オフラインHTMLに変換する（system-spec-writer / spec-to-html）"
+      "description": "ソースコードからMarkdown仕様書を生成する（system-spec-writer）"
+    },
+    {
+      "name": "furusato-ops-knowledge",
+      "source": "./plugins/furusato-ops-knowledge",
+      "description": "ふるさと納税Do運用の資料・チャットを分析し、業務フロー・タスク・FAQ・トラブル候補のMarkdownナレッジベースを蓄積する（knowledge-extractor）"
     }
   ]
 }

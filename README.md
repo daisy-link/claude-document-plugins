@@ -8,12 +8,11 @@ lo-cal 社内向けの Claude Code プラグインを配布するリポジトリ
 
 ### `spec-tools`
 
-ソースコードから仕様書を生成し、閲覧用HTMLに変換する2つのスキルを同梱。
+ソースコードから仕様書を生成するスキルを同梱。
 
 | スキル | 用途 |
 |-------|------|
-| system-spec-writer | リポジトリを分析してMarkdown形式の仕様書（要件定義・基本設計・詳細設計・システム設定・インフラ・開発環境）を作成・更新・再作成する |
-| spec-to-html | 生成した仕様書を、ネット接続なしで開ける完全オフラインHTMLに変換する（Mermaid図・GitHub Alerts対応） |
+| system-spec-writer | リポジトリを分析してMarkdown形式の仕様書（要件定義書・システム構成書・画面設計書・DB設計・詳細設計・システム設定仕様書・インフラ構成書・開発環境セットアップ、要望があればコーディング規約）を作成・更新・再作成する |
 
 ## インストール
 
@@ -35,10 +34,6 @@ Claude Code で以下を実行します。
 対象プロジェクトのディレクトリで Claude Code を起動し、「仕様書を作って」と依頼する。
 生成物はプロジェクト直下の `docs/` に書き込まれます。
 
-### 仕様書をHTMLに変換する
-「仕様書をHTMLにして」と依頼する。`docs/` を読み取り、`docs-site/` にオフラインHTMLを出力します。
-`docs-site/index.html` をブラウザで開くだけで、ネット接続なしに全仕様書を閲覧できます。
-
 ## リポジトリ構成
 
 ```
@@ -49,8 +44,7 @@ claude-skills/                          # = マーケットプレイス lo-cal-s
     └── spec-tools/                     # プラグイン
         ├── .claude-plugin/plugin.json  # プラグイン定義
         └── skills/
-            ├── system-spec-writer/     # SKILL.md + references/
-            └── spec-to-html/           # SKILL.md + scripts/ + assets/
+            └── system-spec-writer/     # SKILL.md + references/
 ```
 
 ## 開発・メンテナンス
