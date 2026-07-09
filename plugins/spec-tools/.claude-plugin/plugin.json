@@ -1,6 +1,6 @@
 {
   "name": "spec-tools",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "ソースコードからMarkdown仕様書を生成する社内向けスキル集。architecture-design（仕様書生成）を同梱。",
   "author": {
     "name": "lo-cal"
