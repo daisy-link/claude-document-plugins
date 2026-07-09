@@ -10,7 +10,7 @@
     {
       "name": "spec-tools",
       "source": "./plugins/spec-tools",
-      "description": "ソースコードからMarkdown仕様書を生成する（system-spec-writer）"
+      "description": "ソースコードからMarkdown仕様書を生成する（architecture-design）"
     },
     {
       "name": "furusato-ops-knowledge",

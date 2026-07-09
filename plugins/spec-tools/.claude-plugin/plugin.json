@@ -1,7 +1,7 @@
 {
   "name": "spec-tools",
-  "version": "0.6.0",
-  "description": "ソースコードからMarkdown仕様書を生成する社内向けスキル集。system-spec-writer（仕様書生成）を同梱。",
+  "version": "0.7.0",
+  "description": "ソースコードからMarkdown仕様書を生成する社内向けスキル集。architecture-design（仕様書生成）を同梱。",
   "author": {
     "name": "lo-cal"
   },

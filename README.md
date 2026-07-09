@@ -12,7 +12,7 @@ lo-cal 社内向けの Claude Code プラグインを配布するリポジトリ
 
 | スキル | 用途 |
 |-------|------|
-| system-spec-writer | リポジトリを分析してMarkdown形式の仕様書（要件定義書・システム構成書・画面設計書・DB設計・詳細設計・システム設定仕様書・インフラ構成書・開発環境セットアップ、要望があればコーディング規約）を作成・更新・再作成する |
+| architecture-design | リポジトリを分析してMarkdown形式の仕様書（要件定義書・システム構成書・画面設計書・DB設計・詳細設計・システム設定仕様書・インフラ構成書・開発環境セットアップ、要望があればコーディング規約）を作成・更新・再作成する |
 
 ## インストール
 
@@ -44,7 +44,7 @@ claude-skills/                          # = マーケットプレイス lo-cal-s
     └── spec-tools/                     # プラグイン
         ├── .claude-plugin/plugin.json  # プラグイン定義
         └── skills/
-            └── system-spec-writer/     # SKILL.md + references/
+            └── architecture-design/    # SKILL.md + references/
 ```
 
 ## 開発・メンテナンス

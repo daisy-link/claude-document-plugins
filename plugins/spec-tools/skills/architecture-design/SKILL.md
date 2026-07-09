@@ -1,5 +1,5 @@
 ---
-name: system-spec-writer
+name: architecture-design
 description: >
   リポジトリ内のソースコード・設定ファイル・DB定義などを分析して、
   Markdown形式のシステム仕様書（要件定義書・システム構成書・画面設計書・DB設計・
