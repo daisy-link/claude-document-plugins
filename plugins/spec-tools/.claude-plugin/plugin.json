@@ -1,6 +1,6 @@
 {
   "name": "spec-tools",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "仕様書の生成から仕様書に基づく開発までを支援する社内向けスキル集。architecture-design（仕様書生成）と、実装・レビュー・テスト・セキュリティ・パフォーマンスチェックの唯一の窓口である spec-dev-cycle を同梱。spec-implementation・spec-review・spec-test・spec-security・spec-performance は spec-dev-cycle 経由でのみ呼び出される内部スキル。破壊的コマンド（プロジェクト外への rm・mv、sudo・dd 等）を実行前に強制ブロックする PreToolUse フックも同梱。",
   "author": {
     "name": "lo-cal"
