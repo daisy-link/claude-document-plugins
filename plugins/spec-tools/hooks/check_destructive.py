@@ -133,20 +133,35 @@ def check_segment(tokens: list, cwd: str, roots: list) -> None:
             check_paths("find -delete", starts, cwd, roots)
 
 
+SEGMENT_OPERATORS = {"|", "||", "&&", ";", "&", "\n"}
+
+
 def split_segments(command: str) -> list:
-    """コマンド文字列をパイプ・連結演算子でおおまかに分割し、トークン列のリストを返す。"""
+    """コマンド文字列を演算子（| || && ; & 改行）で分割し、トークン列のリストを返す。
+
+    shlexで引用符を考慮しながらトークン化してから演算子で区切るため、
+    引用符内に `|` `;` `&` 等が含まれていても誤って分割しない
+    （例: grep -n "a|b" file.txt | grep -i foo）。
+    """
+    lex = shlex.shlex(command, posix=True, punctuation_chars="|&;\n")
+    lex.whitespace = " \t\r"
+    lex.whitespace_split = True
+    try:
+        tokens = list(lex)
+    except ValueError:
+        ask("コマンドの構文を解析できませんでした。実行してよいか確認してください。")
+        return []
     segments = []
-    for part in re.split(r"(?:\|\||&&|[;|&\n])+", command):
-        part = part.strip()
-        if not part:
-            continue
-        try:
-            tokens = shlex.split(part, posix=True)
-        except ValueError:
-            ask("コマンドの構文を解析できませんでした。実行してよいか確認してください。")
-            return []
-        if tokens:
-            segments.append(tokens)
+    current = []
+    for tok in tokens:
+        if tok in SEGMENT_OPERATORS:
+            if current:
+                segments.append(current)
+                current = []
+        else:
+            current.append(tok)
+    if current:
+        segments.append(current)
     return segments
 
 
