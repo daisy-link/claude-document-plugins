@@ -82,6 +82,8 @@
 | コードを変更したので仕様書を追従させたい | 「決済APIを変更したから仕様書を更新して」 |
 | 納品前にクライアントへ渡すテスト項目書がほしい | 「受け入れテスト項目書を作って」 |
 | 仕様書とシステムの実態がズレていないか確認したい | 「仕様書とコードがズレていないか確認して」 |
+| 開発前に仕様書どうしの矛盾・抜けが無いか確認したい | 「仕様書同士の整合性をチェックして」 |
+| 利用者向けの使い方ガイドがほしい | 「操作マニュアルを作って」 |
 
 ---
 
@@ -98,8 +100,10 @@
 | ⚡ spec-performance | （内部）N+1クエリ・SQL効率・キャッシュ戦略をDB設計・非機能要件と照らして確認 |
 | 📋 **acceptance-test-writer** | 画面設計書・要件定義書をもとに、クライアント向けの受け入れテスト項目書（UAT資料）を作成。検収署名欄つき。開発前でも作成でき、希望すればドメイン別シート分けのExcelも出力 |
 | 🔎 **spec-alignment-audit** | プロジェクト全体で仕様書と実装コードを突き合わせ、「仕様書にあるが未実装」「実装にあるが仕様書に未記載」を1件ずつ確認しながら解決。仕様書・実装コードの両方が揃っているプロジェクト向け |
+| 🧩 **spec-consistency-check** | 開発着手**前**に、仕様書どうし（要件定義書↔画面設計書↔詳細設計↔DB設計）の相互参照の矛盾・抜けを1件ずつ確認しながら解決。コードが無くても実行可 |
+| 📖 **user-manual-writer** | 画面設計書をもとに、実際にシステムを使う人向けの操作マニュアルを作成。手順書き・スクリーンショットつき。希望すればWord/PDFも出力 |
 
-> 💡 「（内部）」のスキルは直接呼び出す必要はありません。**普通に話しかければ spec-dev-cycle がぜんぶ交通整理してくれます**。開発系スキルはいずれも `docs/` の仕様書が前提なので、無い場合は先に仕様書作成を案内します。`acceptance-test-writer` と `spec-alignment-audit` は独立スキルなので直接呼び出せます（前者は `spec-dev-cycle` の開発サイクル完了時にも提案されます）。
+> 💡 「（内部）」のスキルは直接呼び出す必要はありません。**普通に話しかければ spec-dev-cycle がぜんぶ交通整理してくれます**。開発系スキルはいずれも `docs/` の仕様書が前提なので、無い場合は先に仕様書作成を案内します。`acceptance-test-writer`・`spec-alignment-audit`・`spec-consistency-check`・`user-manual-writer` は独立スキルなので直接呼び出せます（`acceptance-test-writer` は `spec-dev-cycle` の開発サイクル完了時に、`spec-consistency-check` は `architecture-design` の仕様書作成・更新後にも提案されます）。
 
 ---
 
@@ -193,7 +197,9 @@ claude-skills/                          # = マーケットプレイス lo-cal-s
             ├── spec-security/          # SKILL.md（内部スキル）
             ├── spec-performance/       # SKILL.md（内部スキル）
             ├── acceptance-test-writer/ # SKILL.md（独立スキル）
-            └── spec-alignment-audit/   # SKILL.md（独立スキル）
+            ├── spec-alignment-audit/   # SKILL.md（独立スキル）
+            ├── spec-consistency-check/ # SKILL.md（独立スキル）
+            └── user-manual-writer/     # SKILL.md（独立スキル）
 ```
 
 - スキルの追加・修正は `plugins/spec-tools/skills/` 配下で行う
