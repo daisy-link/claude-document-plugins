@@ -84,6 +84,7 @@
 | 仕様書とシステムの実態がズレていないか確認したい | 「仕様書とコードがズレていないか確認して」 |
 | 開発前に仕様書どうしの矛盾・抜けが無いか確認したい | 「仕様書同士の整合性をチェックして」 |
 | 利用者向けの使い方ガイドがほしい | 「操作マニュアルを作って」 |
+| 実際に使う人が困らないか、運用と合っているか確認したい | 「利用者目線でチェックして」 |
 
 ---
 
@@ -102,8 +103,9 @@
 | 🔎 **spec-alignment-audit** | プロジェクト全体で仕様書と実装コードを突き合わせ、「仕様書にあるが未実装」「実装にあるが仕様書に未記載」を1件ずつ確認しながら解決。仕様書・実装コードの両方が揃っているプロジェクト向け |
 | 🧩 **spec-consistency-check** | 開発着手**前**に、仕様書どうし（要件定義書↔画面設計書↔詳細設計↔DB設計）の相互参照の矛盾・抜けを1件ずつ確認しながら解決。コードが無くても実行可 |
 | 📖 **user-manual-writer** | 画面設計書をもとに、実際にシステムを使う人向けの操作マニュアルを作成。手順書き・スクリーンショットつき。希望すればWord/PDFも出力 |
+| 🧑‍🦳 **persona-review** | 技術に詳しくない「利用者ペルソナ」の視点で仕様書または実際のシステムを検証し、分かりにくさ・運用と合わない部分を重要度つきレポートとして出力。開発前でも、実装後は実機操作でも実行できる |
 
-> 💡 「（内部）」のスキルは直接呼び出す必要はありません。**普通に話しかければ spec-dev-cycle がぜんぶ交通整理してくれます**。開発系スキルはいずれも `docs/` の仕様書が前提なので、無い場合は先に仕様書作成を案内します。`acceptance-test-writer`・`spec-alignment-audit`・`spec-consistency-check`・`user-manual-writer` は独立スキルなので直接呼び出せます（`acceptance-test-writer` は `spec-dev-cycle` の開発サイクル完了時に、`spec-consistency-check` は `architecture-design` の仕様書作成・更新後にも提案されます）。
+> 💡 「（内部）」のスキルは直接呼び出す必要はありません。**普通に話しかければ spec-dev-cycle がぜんぶ交通整理してくれます**。開発系スキルはいずれも `docs/` の仕様書が前提なので、無い場合は先に仕様書作成を案内します。`acceptance-test-writer`・`spec-alignment-audit`・`spec-consistency-check`・`user-manual-writer`・`persona-review` は独立スキルなので直接呼び出せます（`acceptance-test-writer` と `persona-review` は `spec-dev-cycle` の開発サイクル完了時に、`spec-consistency-check` と `persona-review` は `architecture-design` の仕様書作成・更新後にも提案されます）。
 
 ---
 
@@ -199,7 +201,8 @@ claude-skills/                          # = マーケットプレイス lo-cal-s
             ├── acceptance-test-writer/ # SKILL.md（独立スキル）
             ├── spec-alignment-audit/   # SKILL.md（独立スキル）
             ├── spec-consistency-check/ # SKILL.md（独立スキル）
-            └── user-manual-writer/     # SKILL.md（独立スキル）
+            ├── user-manual-writer/     # SKILL.md（独立スキル）
+            └── persona-review/         # SKILL.md（独立スキル）
 ```
 
 - スキルの追加・修正は `plugins/spec-tools/skills/` 配下で行う
