@@ -136,7 +136,7 @@ mkdir -p docs/
 # 依存パッケージ・ビルド成果物は除外する（`../共通ルール.md`）
 git status --short 2>/dev/null || find . \( -name .git -o -name node_modules -o -name vendor \
   -o -name .venv -o -name venv -o -name __pycache__ -o -name dist -o -name build \
-  -o -name .next -o -name target -o -name docs \) -prune -o -type f -print | sort
+  -o -name .next -o -name target -o -path ./docs \) -prune -o -type f -print | sort
 ```
 
 修正後ファイルと既存仕様書（`docs/`）を読み込み、**何が変わったか**を自律的に検出する。検出観点：
@@ -248,7 +248,7 @@ git status --short 2>/dev/null || find . \( -name .git -o -name node_modules -o 
 # .git・出力先の docs に加え、依存パッケージ・ビルド成果物も除外する（`../共通ルール.md`）
 find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
   -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \
-  -o -name docs \) -prune -o -type f -print | sort
+  -o -path ./docs \) -prune -o -type f -print | sort
 ```
 
 ### ファイルの種類ごとの読み方
@@ -295,7 +295,7 @@ find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -na
 # 依存パッケージ側にも config.* / settings.* が大量にあるため、必ず先に除外する（`../共通ルール.md`）
 find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
   -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \
-  -o -name docs \) -prune -o \( -name ".env*" -o -name "*.env" \
+  -o -path ./docs \) -prune -o \( -name ".env*" -o -name "*.env" \
   -o -name "config.*" -o -name "settings.*" \
   -o -name "application.yml" -o -name "application.properties" \
   -o -name "appsettings.json" \) -print | sort
@@ -304,7 +304,7 @@ find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -na
 # 依存パッケージ側にも Makefile が大量にあるため、必ず先に除外する
 find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
   -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \
-  -o -name docs \) -prune -o \( -name "Dockerfile" -o -name "docker-compose*.yml" \
+  -o -path ./docs \) -prune -o \( -name "Dockerfile" -o -name "docker-compose*.yml" \
   -o -name "docker-compose*.yaml" -o -name ".devcontainer" \
   -o -name "Vagrantfile" -o -name "Makefile" \) -print | sort
 ```
@@ -463,7 +463,7 @@ find docs/ -name "*.md" | sort
 # 依存パッケージ・ビルド成果物は除外する（`../共通ルール.md`）
 find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
   -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \
-  -o -name docs \) -prune -o -type f -print | sort
+  -o -path ./docs \) -prune -o -type f -print | sort
 ```
 
 ### C-STEP 2: 仕様書ごとに「書き漏れがないか」を確認する
