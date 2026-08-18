@@ -70,7 +70,10 @@ find docs/画面設計書 -name "*.md" 2>/dev/null | sort
 
 ```bash
 # 画面設計書に記載のルートに対応する実装ファイルがあるか、ざっと確認する
-find . -type f -not -path './.git/*' -not -path './docs/*' -not -path './node_modules/*' | head -50
+# （依存パッケージ・ビルド成果物は除外。`../共通ルール.md`）
+find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
+  -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \
+  -o -name docs \) -prune -o -type f -print | head -50
 ```
 
 - 画面設計書のルートに対応するアプリケーションコードが無い、または画面設計書・要件定義書の

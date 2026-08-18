@@ -42,8 +42,11 @@ find docs/ -name "*.md" 2>/dev/null | sort
 
 ```bash
 # テストフレームワーク・既存テストの有無を確認
-find . -not -path './.git/*' -not -path './node_modules/*' -not -path './docs/*' \
-  \( -iname "*test*" -o -iname "*spec*" \) -type f | sort | head -50
+# （依存パッケージ・ビルド成果物は除外。`../共通ルール.md`）
+find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
+  -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \
+  -o -name docs \) -prune -o -type f \( -iname "*test*" -o -iname "*spec*" \) -print \
+  | sort | head -50
 cat package.json 2>/dev/null | grep -A5 '"scripts"'
 ```
 

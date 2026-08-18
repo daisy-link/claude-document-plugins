@@ -63,8 +63,10 @@ find docs/画面設計書 -name "*.md" 2>/dev/null | sort
 ## STEP 2: モードの選択（仕様書のみ／実機操作）
 
 ```bash
-# 実装コードの有無をざっと確認する
-find . -type f -not -path './.git/*' -not -path './docs/*' -not -path './node_modules/*' | head -50
+# 実装コードの有無をざっと確認する（依存パッケージ・ビルド成果物は除外。`../共通ルール.md`）
+find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
+  -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \
+  -o -name docs \) -prune -o -type f -print | head -50
 ```
 
 | 状況 | モード |

@@ -133,7 +133,10 @@ mkdir -p docs/
 
 ```bash
 # 変更のあったファイルを把握（git管理下なら差分から、そうでなければ全体を確認）
-git status --short 2>/dev/null || find . -type f -not -path './.git/*' -not -path './docs/*' | sort
+# 依存パッケージ・ビルド成果物は除外する（`../共通ルール.md`）
+git status --short 2>/dev/null || find . \( -name .git -o -name node_modules -o -name vendor \
+  -o -name .venv -o -name venv -o -name __pycache__ -o -name dist -o -name build \
+  -o -name .next -o -name target -o -name docs \) -prune -o -type f -print | sort
 ```
 
 修正後ファイルと既存仕様書（`docs/`）を読み込み、**何が変わったか**を自律的に検出する。検出観点：
@@ -241,8 +244,11 @@ git status --short 2>/dev/null || find . -type f -not -path './.git/*' -not -pat
 ユーザーが特定のサブディレクトリを指定した場合はそこを対象にする。
 
 ```bash
-# ディレクトリ構造の全体把握（.git や出力先の docs は除外）
-find . -type f -not -path './.git/*' -not -path './docs/*' | sort
+# ディレクトリ構造の全体把握
+# .git・出力先の docs に加え、依存パッケージ・ビルド成果物も除外する（`../共通ルール.md`）
+find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
+  -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \
+  -o -name docs \) -prune -o -type f -print | sort
 ```
 
 ### ファイルの種類ごとの読み方
@@ -286,15 +292,21 @@ find . -type f -not -path './.git/*' -not -path './docs/*' | sort
 
 ```bash
 # 設定ファイルの存在チェック
-find . -not -path './.git/*' \( -name ".env*" -o -name "*.env" \
+# 依存パッケージ側にも config.* / settings.* が大量にあるため、必ず先に除外する（`../共通ルール.md`）
+find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
+  -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \
+  -o -name docs \) -prune -o \( -name ".env*" -o -name "*.env" \
   -o -name "config.*" -o -name "settings.*" \
   -o -name "application.yml" -o -name "application.properties" \
-  -o -name "appsettings.json" \) | sort
+  -o -name "appsettings.json" \) -print | sort
 
 # Docker等の開発環境ファイルの存在チェック
-find . -not -path './.git/*' \( -name "Dockerfile" -o -name "docker-compose*.yml" \
+# 依存パッケージ側にも Makefile が大量にあるため、必ず先に除外する
+find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
+  -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \
+  -o -name docs \) -prune -o \( -name "Dockerfile" -o -name "docker-compose*.yml" \
   -o -name "docker-compose*.yaml" -o -name ".devcontainer" \
-  -o -name "Vagrantfile" -o -name "Makefile" \) | sort
+  -o -name "Vagrantfile" -o -name "Makefile" \) -print | sort
 ```
 
 | 検出したもの | 自動作成する仕様書 |
@@ -448,7 +460,10 @@ mkdir -p docs
 
 ```bash
 find docs/ -name "*.md" | sort
-find . -type f -not -path './.git/*' -not -path './docs/*' | sort
+# 依存パッケージ・ビルド成果物は除外する（`../共通ルール.md`）
+find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
+  -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \
+  -o -name docs \) -prune -o -type f -print | sort
 ```
 
 ### C-STEP 2: 仕様書ごとに「書き漏れがないか」を確認する
