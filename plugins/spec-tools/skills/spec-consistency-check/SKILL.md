@@ -33,7 +33,7 @@ description: >
 ## STEP 1: 前提確認
 
 ```bash
-find docs/ -name "*.md" 2>/dev/null | sort
+find docs/ -name "*.md" -not -path "docs/納品用/*" 2>/dev/null | sort
 ```
 
 - `docs/` に仕様書が見つからない場合 → 実施せず、次のように案内して停止する：

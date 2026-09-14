@@ -159,7 +159,9 @@ git status --short 2>/dev/null || find . \( -name .git -o -name node_modules -o 
 
 ### U-STEP 2: 変更箇所の特定と更新
 
-1. 変更内容に関係する仕様書ファイルを特定する
+1. 変更内容に関係する仕様書ファイルを特定する（**`docs/納品用/` は対象に含めない。**
+   提出済みの成果物であり、コードの変更に追従させてはならない。`../共通ルール.md` の
+   「5. 納品用フォルダ（`docs/納品用/`）の凍結」）
 2. 特定した関係ファイルのみを読み込む（`../共通ルール.md` のトークン節約方針に従い、
    `docs/` 以下を無関係な分まで読み込まない）
 3. **単一ファイル仕様書のみ：レイアウト同期を行う**（下記参照）
@@ -465,7 +467,7 @@ mkdir -p docs
 ### C-STEP 1: 作成した仕様書とプログラムファイルを再度読み込む
 
 ```bash
-find docs/ -name "*.md" | sort
+find docs/ -name "*.md" -not -path "docs/納品用/*" | sort
 # 依存パッケージ・ビルド成果物は除外する（`../共通ルール.md`）
 find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
   -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \

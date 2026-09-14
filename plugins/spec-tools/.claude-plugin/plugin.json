@@ -1,6 +1,6 @@
 {
   "name": "spec-tools",
-  "version": "0.20.0",
+  "version": "0.20.1",
   "description": "仕様書の生成から仕様書に基づく開発・納品・監査までを支援する社内向けスキル集。architecture-design（仕様書生成）と、実装・レビュー・テスト・セキュリティ・パフォーマンスチェックの唯一の窓口である spec-dev-cycle を同梱。spec-implementation・spec-review・spec-test・spec-security・spec-performance は spec-dev-cycle 経由でのみ呼び出される内部スキル。acceptance-test-writer はクライアント向け受け入れテスト項目書（UAT資料）、user-manual-writer はエンドユーザー向け操作マニュアルを作る独立スキル。spec-alignment-audit はプロジェクト全体の仕様書とコードの整合性を、spec-consistency-check は開発着手前に仕様書どうしの整合性を監査する独立スキル。persona-review は技術に詳しくない利用者ペルソナの視点で仕様書または実際のシステムを検証し、分かりにくさ・運用と合わない部分をレポートする独立スキル（開発前・実装後どちらにも対応）。delivery-spec-export は既存の仕様書からお客様に渡す納品版を docs/納品用/ に書き出す独立スキル（対象資料を選択形式で指定し、社内・開発者向けの記述を自動で除去して報告する）。破壊的コマンド（プロジェクト外への rm・mv、sudo・dd 等）を実行前に強制ブロックする PreToolUse フックも同梱。",
   "author": {
     "name": "lo-cal"

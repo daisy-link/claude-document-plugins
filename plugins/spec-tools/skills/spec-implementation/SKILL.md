@@ -36,7 +36,7 @@ description: >
 ### 1-1. 仕様書の有無を確認する
 
 ```bash
-find docs/ -name "*.md" 2>/dev/null | sort
+find docs/ -name "*.md" -not -path "docs/納品用/*" 2>/dev/null | sort
 ```
 
 - `docs/` が存在しない、または関連する仕様書が見つからない場合 → 実装を開始せず、次のように案内して停止する：

@@ -36,7 +36,7 @@ description: >
 ## STEP 1: 前提確認（必須）
 
 ```bash
-find docs/ -name "*.md" 2>/dev/null | sort
+find docs/ -name "*.md" -not -path "docs/納品用/*" 2>/dev/null | sort
 # 実装コードの確認（依存パッケージ・ビルド成果物は除外。`../共通ルール.md`）
 find . \( -name .git -o -name node_modules -o -name vendor -o -name .venv -o -name venv \
   -o -name __pycache__ -o -name dist -o -name build -o -name .next -o -name target \

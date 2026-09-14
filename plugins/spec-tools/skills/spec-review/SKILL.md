@@ -34,7 +34,7 @@ description: >
 ## STEP 1: 前提確認（必須）
 
 ```bash
-find docs/ -name "*.md" 2>/dev/null | sort
+find docs/ -name "*.md" -not -path "docs/納品用/*" 2>/dev/null | sort
 test -f docs/コーディング規約.md && echo "コーディング規約あり"
 ```
 
