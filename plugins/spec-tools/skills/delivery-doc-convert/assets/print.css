@@ -1,0 +1,193 @@
+/* ==========================================================================
+   PDF（印刷）用スタイル：A4・表紙・目次・本文
+   ========================================================================== */
+
+@page {
+  size: A4;
+  margin: 18mm 16mm 20mm;
+}
+
+:root {
+  --text: #24292f;
+  --text-sub: #5b6570;
+  --line: #d9dee3;
+  --accent: #1f5fa8;
+  --bg-sub: #f6f7f9;
+  --font: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP",
+          "Yu Gothic Medium", "Yu Gothic", Meiryo, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Courier New", monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 9.5pt;
+  line-height: 1.75;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+a { color: var(--accent); text-decoration: none; }
+
+/* ---------- 表紙 ---------- */
+.cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 244mm;
+  page-break-after: always;
+  text-align: center;
+}
+.cover-rule { width: 64px; height: 3px; margin: 0 auto 28px; background: var(--accent); }
+.cover-title { margin: 0 0 14px; font-size: 22pt; line-height: 1.5; letter-spacing: .02em; }
+.cover-subtitle { margin: 0 0 56px; font-size: 13pt; color: var(--text-sub); }
+.cover-meta { font-size: 10pt; color: var(--text-sub); line-height: 2; }
+
+/* ---------- 目次 ---------- */
+.toc { page-break-after: always; }
+.toc h2 {
+  margin: 0 0 24px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--line);
+  font-size: 15pt;
+}
+.toc ol { margin: 0; padding: 0; list-style: none; }
+.toc a { color: var(--text); }
+.toc li { margin: 0; }
+.toc-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 5px 0;
+  font-size: 10pt;
+}
+.toc-child .toc-row { padding-left: 18px; font-size: 9.5pt; color: var(--text-sub); }
+.toc-no { flex: 0 0 auto; min-width: 26px; color: var(--text-sub); }
+.toc-name { flex: 0 0 auto; }
+.toc-dots { flex: 1 1 auto; border-bottom: 1px dotted #c3c9cf; transform: translateY(-3px); }
+.toc-page { flex: 0 0 auto; font-variant-numeric: tabular-nums; }
+
+/* ---------- 本文 ---------- */
+.doc { page-break-before: always; }
+.doc:first-of-type { page-break-before: auto; }
+
+.doc h1 {
+  margin: 0 0 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--line);
+  font-size: 16pt;
+  line-height: 1.5;
+}
+.doc h2 {
+  margin: 22px 0 10px;
+  padding-left: 9px;
+  border-left: 3px solid var(--accent);
+  font-size: 12pt;
+  line-height: 1.5;
+  page-break-after: avoid;
+}
+.doc h3 { margin: 16px 0 8px; font-size: 10.5pt; page-break-after: avoid; }
+.doc h4 { margin: 12px 0 6px; font-size: 10pt; color: var(--text-sub); }
+
+.doc p { margin: 8px 0; }
+.doc ul, .doc ol { margin: 8px 0; padding-left: 1.5em; }
+.doc li { margin: 3px 0; }
+.doc hr { margin: 18px 0; border: 0; border-top: 1px solid var(--line); }
+
+.doc code {
+  padding: 1px 4px;
+  background: var(--bg-sub);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 88%;
+}
+.doc pre {
+  margin: 10px 0;
+  padding: 10px 12px;
+  background: var(--bg-sub);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 8.5pt;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  page-break-inside: avoid;
+}
+.doc pre code { padding: 0; background: none; border: 0; }
+
+.doc blockquote {
+  margin: 10px 0;
+  padding: 1px 12px;
+  border-left: 3px solid var(--line);
+  color: var(--text-sub);
+}
+
+/* ---------- 表 ---------- */
+.table-wrap { margin: 10px 0; }
+.doc table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8.5pt;
+  line-height: 1.6;
+  page-break-inside: auto;
+}
+.doc tr { page-break-inside: avoid; }
+.doc thead { display: table-header-group; }
+.doc th, .doc td {
+  padding: 5px 7px;
+  border: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  word-break: break-word;
+}
+.doc th { background: var(--bg-sub); font-weight: 700; white-space: nowrap; }
+.doc th.nowrap, .doc td.nowrap { white-space: nowrap; }
+
+/* ---------- 注記 ---------- */
+.alert {
+  margin: 12px 0;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-left-width: 3px;
+  border-radius: 4px;
+  background: var(--bg-sub);
+  page-break-inside: avoid;
+}
+.alert > :first-child { margin-top: 0; }
+.alert > :last-child { margin-bottom: 0; }
+.alert-title { margin-bottom: 3px; font-size: 8.5pt; font-weight: 700; }
+.alert-note      { border-left-color: #1f5fa8; background: #f3f7fb; }
+.alert-note .alert-title { color: #1f5fa8; }
+.alert-tip       { border-left-color: #2e8b57; background: #f2f9f5; }
+.alert-tip .alert-title { color: #2e8b57; }
+.alert-important { border-left-color: #8250df; background: #f7f4fd; }
+.alert-important .alert-title { color: #8250df; }
+.alert-warning   { border-left-color: #bf8700; background: #fdf8ef; }
+.alert-warning .alert-title { color: #9a6d00; }
+.alert-caution   { border-left-color: #cf222e; background: #fdf4f4; }
+.alert-caution .alert-title { color: #cf222e; }
+
+/* ---------- 図（mermaid） ---------- */
+.mermaid-wrap {
+  margin: 12px 0;
+  padding: 10px;
+  background: var(--bg-sub);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  text-align: center;
+  page-break-inside: avoid;
+}
+pre.mermaid { margin: 0; padding: 0; background: none; border: 0; white-space: pre; }
+.mermaid-wrap svg {
+  max-width: 100%;
+  max-height: 225mm;   /* 1ページに収める（はみ出すと図が分断されるため） */
+  width: auto;
+  height: auto;
+}
+
+/* ---------- ページ位置の目印（PDF生成時のみ使用・印刷には出ない） ---------- */
+.pdf-marker { font-size: 1pt; color: transparent; }
