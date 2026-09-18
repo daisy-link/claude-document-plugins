@@ -229,39 +229,3 @@ STEP 6 で書き出したMarkdownを、そのまま配布・印刷できる形�
 
 このプラグインは**どんどん改善・機能追加**しています🚀
 `/plugin` を開いて `spec-tools` に更新が来ていないか、**定期的にチェック**してください。更新したら Claude Code の再起動もお忘れなく！
-
----
-
-## 🔧 開発・メンテナンス（このリポジトリを触る人向け）
-
-```
-claude-skills/                          # = マーケットプレイス lo-cal-skills
-├── .claude-plugin/
-│   └── marketplace.json                # 配布カタログ
-└── plugins/
-    └── spec-tools/                     # プラグイン
-        ├── .claude-plugin/plugin.json  # プラグイン定義（配布時に version を更新）
-        ├── hooks/
-        │   ├── hooks.json              # PreToolUseフック定義
-        │   └── check_destructive.py    # 破壊的コマンドの検査スクリプト
-        └── skills/
-            ├── 共通ルール.md            # 全スキル共通の絶対禁止事項・トークン節約方針
-            ├── architecture-design/    # SKILL.md + references/
-            ├── spec-dev-cycle/         # SKILL.md（唯一の窓口）
-            ├── spec-implementation/    # SKILL.md（内部スキル）
-            ├── spec-review/            # SKILL.md（内部スキル）
-            ├── spec-test/              # SKILL.md（内部スキル）
-            ├── spec-security/          # SKILL.md（内部スキル）
-            ├── spec-performance/       # SKILL.md（内部スキル）
-            ├── acceptance-test-writer/ # SKILL.md（独立スキル）
-            ├── spec-alignment-audit/   # SKILL.md（独立スキル）
-            ├── spec-consistency-check/ # SKILL.md（独立スキル）
-            ├── user-manual-writer/     # SKILL.md（独立スキル）
-            ├── persona-review/         # SKILL.md（独立スキル）
-            └── delivery-spec-export/   # SKILL.md（独立スキル）
-```
-
-- スキルの追加・修正は `plugins/spec-tools/skills/` 配下で行う
-- 全スキル共通のルールは `skills/共通ルール.md` に集約されている（各スキルから参照）
-- 新しいプラグインを追加したら `.claude-plugin/marketplace.json` の `plugins` 配列に登録する
-- 変更を配布する際は `plugin.json` の `version` を更新する。利用者は `/plugin` から更新できる
