@@ -203,7 +203,7 @@ STEP 6 で書き出したMarkdownを、そのまま配布・印刷できる形�
 2. チャットに以下を入力して、マーケットプレイスを登録します
 
    ```
-   /plugin marketplace add <このリポジトリのGit URL>
+   /plugin marketplace add https://github.com/daisy-link/claude-document-plugins.git
    ```
 
 3. 続けてプラグインをインストールします
@@ -216,16 +216,61 @@ STEP 6 で書き出したMarkdownを、そのまま配布・印刷できる形�
 
 これで完了！あとは「仕様書を作って」と話しかけるだけです🎉
 
-### 🖱 デスクトップ版（Mac / Windows）の場合
-
-1. Claude Code デスクトップアプリで対象プロジェクトのフォルダを開きます
-2. チャット欄に CLI と同じコマンド（`/plugin marketplace add ...` → `/plugin install spec-tools@lo-cal-skills`）を入力します
-3. アプリを再起動すれば準備OK！
-
 > 🧪 ローカルで試したい場合は、Git URL の代わりにこのリポジトリのパスも指定できます：
 > `/plugin marketplace add /path/to/claude-skills`
 
+### 🖱 デスクトップ版（Mac / Windows）の場合
+
+#### 1. マーケットプレイスを登録する（初回だけ）
+
+**デスクトップ版にはマーケットプレイスを登録するUIがありません。** 最初の1回だけターミナルから登録します（アプリ内のターミナルパネル／Macの「ターミナル」／WindowsのPowerShell、どれでもOK）。
+
+```bash
+claude plugin marketplace add https://github.com/daisy-link/claude-document-plugins.git
+```
+
+`✔ Successfully added marketplace: lo-cal-skills` と出れば成功です。
+
+#### 2. プラグインをインストールする
+
+ここからはアプリの画面で操作できます。
+
+1. プロンプト入力欄の横にある **＋** ボタンをクリック
+2. **Plugins** を選択
+3. **Add plugin** を選択してプラグインブラウザを開く
+4. 一覧から **spec-tools** を選ぶ
+5. スコープを選ぶ
+   - **ユーザー** … 自分の全プロジェクトで使う（おすすめ）
+   - **プロジェクト** … このリポジトリの全員で使う
+   - **ローカル** … このリポジトリで自分だけ使う
+
+#### 3. アプリを再起動する
+
+破壊的コマンドをブロックするフックは、**再起動後に有効**になります🛡
+
+これで完了！「仕様書を作って」と話しかけるだけです🎉
+
+#### インストール済みの確認・有効/無効の切り替え
+
+**＋** → **Plugins** → **Manage plugins** から、有効化・無効化・アンインストールができます。
+
+#### 更新のしかた（デスクトップ版はコマンドから）
+
+デスクトップ版では `/plugin` の対話パネルが開けないため、更新もターミナルから行います。
+
+```bash
+claude plugin marketplace update lo-cal-skills && claude plugin update spec-tools@lo-cal-skills
+```
+
+> [!IMPORTANT]
+> **この2つはセットで必要です。** 前半（`marketplace update`）はリポジトリの最新を取ってくるだけで、**プラグインのバージョンは切り替わりません**。後半（`plugin update`）まで実行してください。
+> `✔ Plugin "spec-tools" updated from X to Y` と出たら、**アプリを再起動**すると反映されます。
+
 ### 🔄 更新について（定期的にチェックしてね！）
 
-このプラグインは**どんどん改善・機能追加**しています🚀
-`/plugin` を開いて `spec-tools` に更新が来ていないか、**定期的にチェック**してください。更新したら Claude Code の再起動もお忘れなく！
+このプラグインは**どんどん改善・機能追加**しています🚀 **定期的にチェック**してください。
+
+- **CLI** … `/plugin` を開いて `spec-tools` に更新が来ていないか確認
+- **デスクトップ版** … 上記「更新のしかた」のコマンドを実行
+
+どちらの場合も、更新したら **Claude Code の再起動**をお忘れなく！
