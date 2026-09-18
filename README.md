@@ -156,7 +156,7 @@ STEP 6 で書き出したMarkdownを、そのまま配布・印刷できる形�
 | 📦 **delivery-spec-export** | 開発者向けの仕様書から、お客様に渡す納品版を `docs/納品用/Markdown/` に書き出す。対象資料は区分つきチェックボックスで必ず選択させ、社内向けの記述と決定の経緯を除去したうえで、技術的な記述を業務の言葉に言い換えて要約。何を削り・何を言い換えたかを報告する。書き出した納品用は**凍結**（2回目以降は差分更新） |
 | 🖨 **delivery-doc-convert** | `docs/納品用/Markdown/` を、サイドバー付きHTML版（`docs/納品用/HTML/`）と表紙・目次つき1冊のPDF版（`docs/納品用/PDF/`）に変換。案件が変わっても同じ体裁で揃う。**変換元は納品用に固定**で、社内向けの記述が残る `docs/` 直下は変換しない |
 
-> 💡 「（内部）」のスキルは直接呼び出す必要はありません。**普通に話しかければ spec-dev-cycle がぜんぶ交通整理してくれます**。開発系スキルはいずれも `docs/` の仕様書が前提なので、無い場合は先に仕様書作成を案内します。`acceptance-test-writer`・`spec-alignment-audit`・`spec-consistency-check`・`user-manual-writer`・`persona-review`・`delivery-spec-export`・`delivery-doc-convert` は独立スキルなので直接呼び出せます（`acceptance-test-writer` と `persona-review` は `spec-dev-cycle` の開発サイクル完了時に、`spec-consistency-check` と `persona-review` は `architecture-design` の仕様書作成・更新後にも提案されます）。
+> 💡 「（内部）」のスキルは直接呼び出す必要はありません。**普通に話しかければ spec-dev-cycle がぜんぶ交通整理してくれます**。開発系スキルはいずれも `docs/` の仕様書が前提なので、無い場合は先に仕様書作成を案内します。`acceptance-test-writer`・`spec-alignment-audit`・`spec-consistency-check`・`user-manual-writer`・`persona-review`・`delivery-spec-export`・`delivery-doc-convert` は独立スキルなので直接呼び出せます（`acceptance-test-writer` と `persona-review` は `spec-dev-cycle` の開発サイクル完了時に、`spec-consistency-check` と `persona-review` は `architecture-design` の仕様書作成・更新後にも提案されます）。**`docs/操作マニュアル.md` を作ったあとは、画面に変更のある開発が終わったときと画面設計書を更新したときに「操作マニュアルも更新しますか？」と一声かけます**（自動では更新しません。クライアントにお渡し済みのことがあるためです）。
 
 ---
 
