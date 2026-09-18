@@ -1,4 +1,4 @@
-# 🎉 lo-cal Claude Code スキル・マーケットプレイス
+# 📐 lo-cal 仕様書駆動開発キット for Claude Code
 
 **「仕様書を作って、仕様書どおりに作る」** を Claude Code で実現する、lo-cal 社内向けのプラグイン配布リポジトリです。
 

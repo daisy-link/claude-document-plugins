@@ -4,7 +4,7 @@
     "name": "lo-cal"
   },
   "metadata": {
-    "description": "lo-cal 社内向け Claude Code スキル・マーケットプレイス"
+    "description": "lo-cal 仕様書駆動開発キット for Claude Code（社内向けプラグイン配布マーケットプレイス）"
   },
   "plugins": [
     {
