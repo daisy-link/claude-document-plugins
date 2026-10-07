@@ -189,5 +189,16 @@ pre.mermaid { margin: 0; padding: 0; background: none; border: 0; white-space: p
   height: auto;
 }
 
+/* ---------- 画面キャプチャ ---------- */
+img {
+  max-width: 100%;
+  max-height: 200mm;   /* 1ページに収める（はみ出すと画像が分断されるため） */
+  width: auto;
+  height: auto;
+  border: 1px solid #d8dce3;
+  border-radius: 4px;
+  page-break-inside: avoid;
+}
+
 /* ---------- ページ位置の目印（PDF生成時のみ使用・印刷には出ない） ---------- */
 .pdf-marker { font-size: 1pt; color: transparent; }

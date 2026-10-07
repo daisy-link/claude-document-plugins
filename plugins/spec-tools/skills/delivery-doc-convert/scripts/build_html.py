@@ -199,6 +199,22 @@ def collect_pages(src: Path) -> list[dict]:
 # --------------------------------------------------------------------------
 # Markdown → HTML
 # --------------------------------------------------------------------------
+IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp"}
+
+
+def copy_images(src: Path, out: Path) -> int:
+    """変換元にある画像を、同じ相対パスで出力先へコピーする。"""
+    count = 0
+    for path in sorted(src.rglob("*")):
+        if not path.is_file() or path.suffix.lower() not in IMAGE_SUFFIXES:
+            continue
+        dest = out / path.relative_to(src)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(path, dest)
+        count += 1
+    return count
+
+
 def md_convert(text: str) -> str:
     converter = markdown.Markdown(
         extensions=MD_EXTENSIONS, extension_configs={"toc": {"slugify": slugify}}
@@ -374,6 +390,10 @@ def main() -> None:
     (out / "assets").mkdir(parents=True)
     shutil.copyfile(args.style, out / "assets" / "style.css")
 
+    # 画面キャプチャ等の画像を、変換元と同じ相対構成でコピーする。
+    # これをしないと Markdown 内の ![](./images/x.png) がリンク切れになる。
+    copied_images = copy_images(src, out)
+
     for pos, rel in enumerate(rels):
         text = (src / rel).read_text(encoding="utf-8")
         # 「← 一覧に戻る」はパンくずと重複するので落とし、直後の区切り線も詰める
@@ -422,6 +442,8 @@ def main() -> None:
         dest.write_text(page, encoding="utf-8")
 
     print(f"{len(rels)} ページを生成しました: {out}")
+    if copied_images:
+        print(f"画像を {copied_images} 件コピーしました")
 
 
 if __name__ == "__main__":

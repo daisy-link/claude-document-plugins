@@ -107,6 +107,25 @@ def localize(body: str, rel: str, pages: list[str], section_id: str) -> str:
 MERMAID_RE = re.compile(r'<pre class="mermaid">(.*?)</pre>', re.S)
 
 
+def absolutize_images(body: str, src: Path, rel: str) -> str:
+    """画像の相対パスを絶対 file:// に直す。
+
+    PDFは一時フォルダに書いたHTMLをChromeで描画するため、`./images/x.png` のような
+    相対パスのままだと解決できず画像が消える。変換元を基準に絶対パス化する。
+    """
+
+    def fix(m: re.Match) -> str:
+        url = m.group(1)
+        if url.startswith(("http://", "https://", "data:", "file://")):
+            return m.group(0)
+        target = (src / Path(rel).parent / url).resolve()
+        if not target.is_file():
+            return m.group(0)
+        return 'src="%s"' % target.as_uri()
+
+    return re.sub(r'src="([^"]+)"', fix, body)
+
+
 def build_sections(src: Path, pages: list[str]) -> list[str]:
     """資料ごとの本文HTMLを、PDF用に作る。"""
     sections = []
@@ -114,7 +133,8 @@ def build_sections(src: Path, pages: list[str]) -> list[str]:
         text = (src / rel).read_text(encoding="utf-8")
         text = re.sub(r"^\[← [^\]]+\]\([^)]+\)\s*$", "", text, count=1, flags=re.M)
         text = re.sub(r"\A(# .*\n)\s*(?:---[ \t]*\n)+", r"\1\n", text)
-        body = localize(build_body(text), rel, pages, anchor_id(rel))
+        body = absolutize_images(build_body(text), src, rel)
+        body = localize(body, rel, pages, anchor_id(rel))
         sections.append(
             f'<article class="doc" id="{anchor_id(rel)}">'
             f'<span class="pdf-marker">@@S{index}@@</span>\n{body}\n</article>'
